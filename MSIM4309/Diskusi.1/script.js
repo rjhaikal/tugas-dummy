@@ -5,3 +5,4 @@ button.addEventListener('click', () => {
   text.textContent = 'Teks ini telah diubah menggunakan JavaScript!';
   alert('Teks berhasil diubah 🎉');
 });
+
