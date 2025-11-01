@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="id">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Login - SITTA</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-body">
+    <main class="login-container">
+        <section class="login-card-modern">
+            <div class="login-header">
+                <h1 class="login-title">Selamat Datang</h1>
+            </div>
+            
+            <form id="loginForm" class="login-form">
+                <div class="input-group-underline">
+                    <span class="input-icon-simple">✉️</span>
+                    <input id="email" type="email" required placeholder="Email" class="input-underline">
+                </div>
+                
+                <div class="input-group-underline">
+                    <span class="input-icon-simple">🗝️</span>
+                    <input id="password" type="password" required placeholder="Password" class="input-underline">
+                </div>
+                
+                <div class="forgot-link-container">
+                    <button type="button" id="forgotBtn" class="link-text">Lupa password?</button>
+                </div>
+                
+                <button type="submit" class="btn-login">Masuk</button>
+                
+                <div class="register-link-container">
+                    <span class="text-small">Belum punya akun? </span>
+                    <button type="button" id="registerBtn" class="link-text">Daftar</button>
+                </div>
+            </form>
+        </section>
+    </main>
+    
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <span id="modalClose" class="modal-close">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+    
+    <script src="js/data.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>
