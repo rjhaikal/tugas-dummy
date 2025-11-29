@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="id">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Sistem Pemesanan Bahan Ajar UT - Tugas 2 Vue.js</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .nav-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .nav-container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 600px;
+            width: 90%;
+        }
+        .nav-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .nav-header h1 {
+            color: #333;
+            margin: 0 0 8px 0;
+            font-size: 28px;
+        }
+        .nav-header p {
+            color: #666;
+            margin: 0;
+        }
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .nav-link {
+            display: block;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .nav-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        .nav-footer {
+            margin-top: 24px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body class="nav-page">
+    <main class="nav-container">
+        <div class="nav-header">
+            <h1>📚 Sistem Pemesanan Bahan Ajar</h1>
+            <p>Universitas Terbuka - Tugas Praktik 2 Vue.js</p>
+        </div>
+        
+        <nav class="nav-menu">
+            <a href="stok.html" class="nav-link">
+                📦 Halaman Stok Bahan Ajar
+            </a>
+            <a href="tracking.html" class="nav-link">
+                🚚 Tracking Delivery Order (DO)
+            </a>
+        </nav>
+        
+        <div class="nav-footer">
+            <p>STSI4209 - Pemrograman Berbasis Web</p>
+        </div>
+    </main>
+</body>
+</html>
