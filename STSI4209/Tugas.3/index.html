@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Bahan Ajar UT - Tugas 3 Vue.js Components</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/vue-styles.css">
+    
+    <style>
+        /* Tab Navigation Styles */
+        .app-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .app-header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .app-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 28px;
+        }
+        
+        .app-header p {
+            margin: 0;
+            opacity: 0.9;
+        }
+        
+        .tab-navigation {
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+        
+        .tab-navigation .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 16px 20px;
+            font-size: 15px;
+            color: #555;
+            cursor: pointer;
+            position: relative;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn:hover {
+            color: #667eea;
+            background-color: #f8f9fa;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            background-color: #f0f4ff;
+        }
+
+        .tab-btn i {
+            margin-right: 8px;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            min-height: 60vh;
+        }
+
+        /* Tooltip Customization */
+        .tooltip-container { position: relative; display: inline-block; }
+        .tooltip-text { 
+            visibility: hidden; 
+            width: 200px; 
+            background-color: #333; 
+            color: #fff; 
+            text-align: center; 
+            border-radius: 6px; 
+            padding: 8px; 
+            position: absolute; 
+            z-index: 10; 
+            bottom: 125%; 
+            left: 50%; 
+            margin-left: -100px; 
+            opacity: 0; 
+            transition: opacity 0.3s; 
+            font-size: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+        .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; }
+        
+        /* Modal Styles Override/Addition */
+        .modal-mask {
+            position: fixed;
+            z-index: 9998;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-container {
+            width: 400px;
+            margin: 0px auto;
+            padding: 20px 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+            transition: all 0.3s ease;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+        .modal-header h3 {
+            margin-top: 0;
+            color: #667eea;
+        }
+
+        .modal-body {
+            margin: 20px 0;
+        }
+
+        .modal-footer {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+  <div id="app">
+    <header class="app-header">
+        <div class="container">
+            <h1>Sistem Bahan Ajar UT</h1>
+            <p>Aplikasi Pengelolaan Stok dan Pemesanan Bahan Ajar</p>
+        </div>
+    </header>
+
+    <nav class="tab-navigation">
+        <div class="container">
+            <button @click="tab='stok'" class="tab-btn" :class="{active: tab==='stok'}">
+                <i class="icon-box"></i> Stok Bahan Ajar
+            </button>
+            <button @click="tab='tracking'" class="tab-btn" :class="{active: tab==='tracking'}">
+                <i class="icon-truck"></i> Tracking DO
+            </button>
+            <button @click="tab='order'" class="tab-btn" :class="{active: tab==='order'}">
+                <i class="icon-cart"></i> Pemesanan
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <transition name="fade" mode="out-in">
+            <section v-show="tab==='stok'" key="stok">
+                <ba-stock-table :items="state.stok"></ba-stock-table>
+            </section>
+        </transition>
+
+        <transition name="fade" mode="out-in">
+            <section v-show="tab==='tracking'" key="tracking">
+                <do-tracking :data="state.tracking"></do-tracking>
+            </section>
+        </transition>
+
+        <transition name="fade" mode="out-in">
+            <section v-show="tab==='order'" key="order">
+                <order-form
+                    :paket="state.paket"
+                    :ekspedisi="state.pengirimanList"
+                    @created="handleNewDO">
+                </order-form>
+            </section>
+        </transition>
+    </main>
+
+    <app-modal ref="modal"></app-modal>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <!-- Loader script to fetch templates and load components -->
+  <script src="js/loader.js"></script>
+</body>
+</html>

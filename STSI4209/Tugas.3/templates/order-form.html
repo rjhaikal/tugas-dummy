@@ -1,0 +1,60 @@
+    <div>
+        <h2 style="color: #333;">Form Pemesanan Bahan Ajar</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+            <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.05);">
+                <div class="form-group mb-20">
+                    <label>NIM Mahasiswa</label>
+                    <input v-model="newDO.nim" placeholder="Masukkan NIM" class="input-modern">
+                </div>
+                <div class="form-group mb-20">
+                    <label>Nama Mahasiswa</label>
+                    <input v-model="newDO.nama" placeholder="Masukkan Nama Lengkap" class="input-modern">
+                </div>
+                <div class="form-group mb-20">
+                    <label>Jasa Ekspedisi</label>
+                    <select v-model="newDO.ekspedisi" class="input-modern">
+                        <option value="" disabled>Pilih Ekspedisi</option>
+                        <option v-for="e in ekspedisi" :value="e.nama">{{ e.nama }}</option>
+                    </select>
+                </div>
+                <div class="form-group mb-20">
+                    <label>Paket Bahan Ajar</label>
+                    <select v-model="newDO.paketKode" class="input-modern">
+                        <option value="" disabled>Pilih Paket</option>
+                        <option v-for="p in paket" :value="p.kode">{{ p.kode }} - {{ p.nama }}</option>
+                    </select>
+                </div>
+                <div class="form-group mb-20">
+                    <label>Tanggal Kirim</label>
+                    <input type="date" v-model="newDO.tanggalKirim" class="input-modern">
+                </div>
+
+                <button class="btn-small btn-success" @click="submitOrder" style="width: 100%; padding: 12px; font-size: 16px; margin-top: 10px;">
+                    Buat Pesanan Baru
+                </button>
+            </div>
+
+            <div>
+                <div v-if="selectedPaketDetail" class="paket-detail">
+                    <h4>Detail Paket: {{ selectedPaketDetail.nama }}</h4>
+                    <div style="margin-bottom: 15px;">
+                        <span style="font-size: 24px; font-weight: bold; color: #28a745;">
+                            {{ formatCurrency(selectedPaketDetail.harga) }}
+                        </span>
+                    </div>
+                    <p><strong>Daftar Mata Kuliah:</strong></p>
+                    <ul style="padding-left: 20px;">
+                        <li v-for="mk in selectedPaketDetail.isi" :key="mk" style="margin-bottom: 5px;">
+                            {{ mk }}
+                        </li>
+                    </ul>
+                    <div style="margin-top: 20px; padding: 10px; background: #e2e6ea; border-radius: 4px; font-size: 13px;">
+                        <p style="margin: 0;">ℹ️ Pastikan data mahasiswa sudah benar sebelum membuat pesanan.</p>
+                    </div>
+                </div>
+                <div v-else style="background: #f8f9fa; padding: 30px; border-radius: 8px; text-align: center; color: #666; border: 2px dashed #ddd;">
+                    <p>Pilih Paket Bahan Ajar untuk melihat detail dan harga.</p>
+                </div>
+            </div>
+        </div>
+    </div>

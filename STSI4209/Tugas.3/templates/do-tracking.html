@@ -1,0 +1,77 @@
+    <div>
+        <h2 style="color: #333;">Tracking Delivery Order</h2>
+        
+        <div class="tracking-search">
+            <input 
+                v-model="searchQuery" 
+                @keyup.enter="performSearch" 
+                @keyup.esc="clearSearch"
+                class="input-large"
+                placeholder="Cari Nomor DO (misal: DO2025-001) atau NIM (Tekan Enter)"
+            >
+            <button class="btn-small btn-secondary" @click="clearSearch" v-if="searchQuery" style="padding: 0 20px;">Clear</button>
+        </div>
+
+        <div v-if="searchResult && searchResult.length > 0" class="tracking-result mt-20">
+            <div v-for="doItem in searchResult" :key="doItem.noDO" class="tracking-info mb-20" style="box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px;">
+                    <div>
+                        <h3 style="margin: 0; color: #667eea;">{{ doItem.noDO }}</h3>
+                        <p style="margin: 5px 0 0 0; color: #666;">{{ doItem.nama }} ({{ doItem.nim }})</p>
+                    </div>
+                    <div class="status-badge status-diproses">
+                        {{ doItem.ekspedisi }}
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <h4>Informasi Paket</h4>
+                        <table class="info-table">
+                            <tr>
+                                <td>Paket</td>
+                                <td><strong>{{ doItem.paket.nama }}</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Harga</td>
+                                <td>{{ formatCurrency(doItem.paket.harga) }}</td>
+                            </tr>
+                            <tr>
+                                <td>Tanggal Kirim</td>
+                                <td>{{ formatDate(doItem.tanggalKirim) }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div>
+                        <h4>Riwayat Pengiriman</h4>
+                        <div class="timeline">
+                            <div class="timeline-item" v-for="(hist, idx) in doItem.history" :key="idx">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-time">{{ hist.waktu }}</div>
+                                    <div class="timeline-desc">{{ hist.keterangan }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                            <h5 style="margin: 0 0 10px 0;">Update Status</h5>
+                            <div style="display: flex; gap: 10px;">
+                                <input v-model="newStatus.keterangan" placeholder="Keterangan status baru" style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                <button class="btn-small" @click="addStatus(doItem)">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-else-if="searchResult !== null" class="alert alert-warning mt-20">
+            <h3>Data tidak ditemukan</h3>
+            <p>Silakan periksa kembali Nomor DO atau NIM yang Anda masukkan.</p>
+        </div>
+        <div v-else class="mt-20" style="text-align: center; padding: 40px; color: #999;">
+            <i style="font-size: 48px; margin-bottom: 10px; display: block;">🔍</i>
+            <p>Silakan cari data DO menggunakan kolom pencarian di atas.</p>
+        </div>
+    </div>
