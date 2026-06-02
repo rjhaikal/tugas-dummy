@@ -1,0 +1,5 @@
+Makanan|Rendang Padang|55000.0|Daging
+Minuman|Es Alpukat|15000.0|Jus Buah
+Diskon|Promo Akhir Pekan|80000.0|30.0
+Makanan|Dendeng|25000.0|Umum
+Diskon|Promo Tas|100000.0|20.0
